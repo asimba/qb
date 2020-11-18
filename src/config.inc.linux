@@ -1,0 +1,17 @@
+PROGRAM = qb
+
+CC = g++
+
+ARCH = x86-64
+TUNE = generic
+
+BUILD_STRING=LINUX
+
+CFLAGS_T = -Wall -march=$(ARCH) -mtune=$(TUNE) -O2 -fstack-protector-all -Wno-unused-result -static -s
+
+CFLAGS = $(CFLAGS_T)
+
+INCLUDES =  -I.
+LDFLAGS = -Wall -march=$(ARCH) -mtune=$(TUNE) -O2 -fstack-protector-all -static -s
+LFLAGS = 
+EXEEXT =

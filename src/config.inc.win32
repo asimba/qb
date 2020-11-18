@@ -1,0 +1,21 @@
+PROGRAM = qb
+
+ifdef TARGET
+  CC = $(TARGET)-g++
+else
+  CC = g++
+endif
+
+ARCH = x86-64
+TUNE = generic
+__MINGW_H=1
+BUILD_STRING=WINDOWS
+
+CFLAGS_T = -Wall -march=$(ARCH) -mtune=$(TUNE) -O2 -fstack-protector-all -static -s
+
+CFLAGS = $(CFLAGS_T)
+
+INCLUDES =  -I.
+LDFLAGS = -Wall -march=$(ARCH) -mtune=$(TUNE) -O2 -fstack-protector-all -static -s
+LFLAGS = 
+EXEEXT = .exe
