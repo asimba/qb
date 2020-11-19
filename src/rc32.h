@@ -1,50 +1,40 @@
 #ifndef _RC32_H
 #define _RC32_H 1
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <stdint.h>
 #include <unistd.h>
-#include "buffers.h"
+#include <string.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <malloc.h>
+#include <fcntl.h>
 
-#ifndef _BUFFER_SIZE
-  #define _BUFFER_SIZE 32768
-#endif
-#define _LE_BUFFER_SIZE 65536
 #define _RC32_BUFFER_SIZE 32768
 
   /*
     Базовый класс для упаковки/распаковки потока по упрощённому алгоритму Range Coder 32-bit
   */
+  typedef int32_t (*io_operator)(void *optional, char *buffer, int32_t lenght);
+  typedef int32_t (*eof_operator)(void *optional);
 
   class rc32{
     private:
       uint32_t low;
       uint32_t hlp;
       uint32_t range;
-      uint8_t waiting;
-      buffers ibuffer;
-      buffers obuffer;
-      bool eof;
-      bool op_code;
       bool init;
       uint8_t *pqbuffer;
-      void initialize();
-      inline void rescale();
-      inline void encode();
-      inline void decode();
-      void finalize_encode();
-      void initialize_decode();
+      uint32_t bufsize;
+      uint32_t rbufsize;
     public:
       uint32_t *frequency;
+      bool eof;
       bool finalize;
-      bool decoding_error;
-      void set(bool pack);
-      int32_t rc32_read(int filedsc, char *buf, int32_t lenght);
-      int32_t rc32_write(int filedsc, char *buf, int32_t lenght);
-      bool is_eof();
+      io_operator read;
+      io_operator write;
+      eof_operator is_eof;
+      void set_operators(io_operator r, io_operator w, eof_operator e);
+      int32_t rc32_read(FILE* file, char *buf, int32_t lenght);
+      int32_t rc32_write(FILE* file, char *buf, int32_t lenght);
       rc32();
       ~rc32();
   };

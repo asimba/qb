@@ -131,7 +131,7 @@ void archiver::set_base(const char *name){ //функция задания ба�
   };
 }
 
-void archiver::read_header(int filedsc){
+void archiver::read_header(FILE *filedsc){
   unsigned char clenght[4];
   char *content=NULL;
   uint32_t rw_lenght=0;
@@ -144,7 +144,7 @@ void archiver::read_header(int filedsc){
 #endif
     if(errcode) break;
     else rwl+=lenght;
-    if((lenght<4)||(pack.decoding_error)){
+    if(lenght<4){
       errcode=0x00000800;
       break;
     };
@@ -165,7 +165,7 @@ void archiver::read_header(int filedsc){
         break;
       }
       else rwl+=lenght;
-      if((lenght<(int32_t)rw_lenght)||(pack.decoding_error)){
+      if(lenght<(int32_t)rw_lenght){
         errcode=0x00000800;
         memset(content,0,rw_lenght);
         free(content);
@@ -193,7 +193,6 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
   if(errcode) return;
   FILE *io_stream=NULL;
   FILE *tm_stream=NULL;
-  int io_file=0;
   int tm_file=0;
   unsigned char clenght[4];
   long lenght=0;
@@ -213,7 +212,7 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
   FILETIME atime;
   FILETIME mtime;
 #endif
-  char *iobuffer=(char *)calloc(_BUFFER_SIZE,sizeof(char));
+  char *iobuffer=(char *)calloc(_RC32_BUFFER_SIZE,sizeof(char));
   if(iobuffer==NULL){
     errcode=0x00000001;
     return;
@@ -226,9 +225,8 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
       free(iobuffer);
       return;
     };
-    setvbuf(io_stream,iobuffer,_IOFBF,_BUFFER_SIZE);
-    io_file=fileno(io_stream);
-    if(axis_sign(io_file,unarc)==-1){
+    setvbuf(io_stream,iobuffer,_IOFBF,_RC32_BUFFER_SIZE);
+    if(axis_sign(io_stream,unarc)==-1){
       errcode=0x00000100;
       fclose(io_stream);
       free(iobuffer);
@@ -268,7 +266,7 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
         return;
       };
     };
-    content=(char *)calloc(_BUFFER_SIZE,sizeof(char));
+    content=(char *)calloc(_RC32_BUFFER_SIZE,sizeof(char));
     if(content==NULL){
       errcode=0x00000001;
       fclose(io_stream);
@@ -279,12 +277,11 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
       free(iobuffer);
       return;
     };
-    pack.set(false);
-    read_header(io_file);
+    read_header(io_stream);
     if(errcode){
       fclose(io_stream);
       if(content){
-        memset(content,0,_BUFFER_SIZE);
+        memset(content,0,_RC32_BUFFER_SIZE);
         free(content);
         content=NULL;
       };
@@ -292,7 +289,7 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
       memset(current_dir,0,strlen(current_dir));
       free(current_dir);
       current_dir=NULL;
-      memset(iobuffer,0,_BUFFER_SIZE);
+      memset(iobuffer,0,_RC32_BUFFER_SIZE);
       free(iobuffer);
       iobuffer=NULL;
       return;
@@ -429,28 +426,28 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
         rw_lenght_file=info.info.size;
         while(1){
           if(!rw_lenght_file) break;
-          if(rw_lenght_file>_BUFFER_SIZE) lenght=_BUFFER_SIZE;
+          if(rw_lenght_file>_RC32_BUFFER_SIZE) lenght=_RC32_BUFFER_SIZE;
           else lenght=(uint32_t)rw_lenght_file;
-          lenght=pack.lzss_read(io_file,content,lenght);
+          lenght=pack.lzss_read(io_stream,content,lenght);
 #ifdef EINTR
           if(lenght<0 && errno==EINTR) continue;
 #endif
           if(errcode) break;
           else rwl+=lenght;
-          if(pack.decoding_error){
+          if(lenght<0){
             errcode=0x00000800;
             break;
           }
-          if((lenght!=_BUFFER_SIZE)&&((off64_t)lenght!=rw_lenght_file)){
+          if((lenght!=_RC32_BUFFER_SIZE)&&((off64_t)lenght!=rw_lenght_file)){
             errcode=0x00000004;
             break;
           };
           if(!unarc_null) lenght=write(tm_file,content,lenght);
-          if((lenght!=_BUFFER_SIZE)&&((off64_t)lenght!=rw_lenght_file)){
+          if((lenght!=_RC32_BUFFER_SIZE)&&((off64_t)lenght!=rw_lenght_file)){
             errcode=0x00000200;
             break;
           };
-          if(rw_lenght_file>_BUFFER_SIZE) rw_lenght_file-=_BUFFER_SIZE;
+          if(rw_lenght_file>_RC32_BUFFER_SIZE) rw_lenght_file-=_RC32_BUFFER_SIZE;
           else rw_lenght_file=0;
         };
         if(unarc_null){
@@ -650,11 +647,11 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
     memset(current_dir,0,strlen(current_dir));
     free(current_dir);
     current_dir=NULL;
-    memset(content,0,_BUFFER_SIZE);
+    memset(content,0,_RC32_BUFFER_SIZE);
     free(content);
     content=NULL;
     fclose(io_stream);
-    memset(iobuffer,0,_BUFFER_SIZE);
+    memset(iobuffer,0,_RC32_BUFFER_SIZE);
     free(iobuffer);
     iobuffer=NULL;
     rwl-=sizeof(uint32_t);
@@ -704,20 +701,18 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
       };
     }
     else io_stream=fdopen(fileno(stdout),"ab");
-    io_file=fileno(io_stream);
-    setvbuf(io_stream,iobuffer,_IOFBF,_BUFFER_SIZE);
-    if(axis_sign(io_file,unarc)==-1){
+    setvbuf(io_stream,iobuffer,_IOFBF,_RC32_BUFFER_SIZE);
+    if(axis_sign(io_stream,unarc)==-1){
       errcode=0x00000200;
       fclose(io_stream);
       free(iobuffer);
       return;
     };
-    pack.set(true);
     if(errcode==0){
       while(1){
         content=tree->get_next_content(lenght);
         if(content){
-          if(pack.lzss_write(io_file,content,lenght)<0){
+          if(pack.lzss_write(io_stream,content,lenght)<0){
             errcode=0x00000200;
             break;
           }
@@ -730,24 +725,24 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
     if(errcode){
       fclose(io_stream);
       if(filename) remove(filename);
-      memset(iobuffer,0,_BUFFER_SIZE);
+      memset(iobuffer,0,_RC32_BUFFER_SIZE);
       free(iobuffer);
       iobuffer=NULL;
       return;
     };
     long2char_s(clenght,0xffffffff);
-    if(pack.lzss_write(io_file,(char *)clenght,sizeof(uint32_t))<0){
+    if(pack.lzss_write(io_stream,(char *)clenght,sizeof(uint32_t))<0){
       errcode=0x00000200;
     };
     if(errcode==0){
-      content=(char *)calloc(_BUFFER_SIZE,sizeof(char));
+      content=(char *)calloc(_RC32_BUFFER_SIZE,sizeof(char));
       if(content==NULL) errcode=0x00000001;
     }
     else rwl+=lenght;
     if(errcode){
       fclose(io_stream);
       if(filename) remove(filename);
-      memset(iobuffer,0,_BUFFER_SIZE);
+      memset(iobuffer,0,_RC32_BUFFER_SIZE);
       free(iobuffer);
       iobuffer=NULL;
       return;
@@ -790,7 +785,7 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
       tm_file=fileno(tm_stream);
       rw_lenght_file=0;
       while(1){
-        lenght=read(tm_file,content,_BUFFER_SIZE);
+        lenght=read(tm_file,content,_RC32_BUFFER_SIZE);
 #ifdef EINTR
         if(lenght<0 && errno==EINTR) continue;
 #endif
@@ -800,7 +795,7 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
           errcode=0x00004000;
           break;
         };
-        if(pack.lzss_write(io_file,content,lenght)<0){
+        if(pack.lzss_write(io_stream,content,lenght)<0){
           errcode=0x00000200;
         };
         if(errcode) break;
@@ -813,16 +808,16 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
       if(errcode) break;
     };
     pack.finalize=true;
-    while(pack.is_eof(io_file)==0){
-     pack.lzss_write(io_file,NULL,0);
+    while(pack.is_eof(io_stream)==0){
+     pack.lzss_write(io_stream,NULL,0);
      if(errcode) break;
     };
-    memset(content,0,_BUFFER_SIZE);
+    memset(content,0,_RC32_BUFFER_SIZE);
     free(content);
     content=NULL;
     if(fflush(io_stream)==EOF) errcode=0x00000200;
     fclose(io_stream);
-    memset(iobuffer,0,_BUFFER_SIZE);
+    memset(iobuffer,0,_RC32_BUFFER_SIZE);
     free(iobuffer);
     iobuffer=NULL;
     if(errcode){

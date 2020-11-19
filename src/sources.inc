@@ -1,5 +1,4 @@
 SOURCES =   signature.cc \
-            buffers.cc \
             rc32.cc \
             nvoc.cc \
             lzss.cc \
