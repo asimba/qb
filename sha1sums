@@ -1,5 +1,5 @@
-8c267338ec3603ae74c623f21012f54d275e5709 *./bin/qb
-3dbe2c2523e8e95ef960e5ddaf74c00b5ad4480a *./bin/qb.exe
+39f1bf9d030f2eba553ddb8e6de3cb6297a024e6 *./bin/qb
+930c90a8921952b0891ac45556ebd0a081fc1910 *./bin/qb.exe
 04a02a05b856af499c7e12a4ca54b192f6ee8b1c *./LICENSE
 f4b7439d3196b6ac2ecc57930853e8293736ce22 *./makefile
 84eb2271e8454666dd8143acf67e9e1f176748cf *./qb.cbp
@@ -10,7 +10,7 @@ c7e0598269b89c08b87fdb9de20d5342659f201b *./README.md
 0e00435e89e429234177d5db375bea06c63b9e0a *./src/archive.h
 c351f594eb4dfe133b6509f2e89f44ab026466fa *./src/bnode.cc
 1b9f0fd420710c08a229934026c2a978ab2cb685 *./src/bnode.h
-218b8b61144dbeed2c9dc9c5dea05cd9c341fefa *./src/build.inc
+33c0a694397b0ea2448d15eb47971200e0effcaa *./src/build.inc
 01d7ae4d64aac4aa3a7cb5a34e5dd008b95058f0 *./src/buildinc
 2a4ba2232e37cde6ccf4d85c0429bdb90081a687 *./src/canonicalize.cc
 d3cdb3d4423c1dc67367029ba7d6c73f3d332eee *./src/canonicalize.h
@@ -27,14 +27,14 @@ b7211a1fb43afef8dff466fe499e6be1289811a3 *./src/fnode.cc
 e3f60bcf1c5f01796eac6a6d2bbb7194531aaca9 *./src/globfunction.cc
 be092d83346279d06825fd0f2b41c03a51916da3 *./src/globfunction.h
 75c7bfe4481692e683f0707f7f43f2f993616da1 *./src/hashsums.sh
-48de25edcf3af5fdbf6d59e1be2397387eaaaf76 *./src/lzss.cc
+1e294872b141bdec2c2bcd24493430f824ed9d1a *./src/lzss.cc
 7791f9f2f559f5c114abc9b8464888bcc0d68692 *./src/lzss.h
 59e10f553642173f2f2fb5cba5108776f53c71ba *./src/makefile
 484fdf20c154794135aa7f22b0a322774be44a3f *./src/makefile.mk
 c139da5ddf1c747eee44e5aafee6eb312af3e29e *./src/mdirs.cc
 7e2e741f8abec81de2f5372bb36963c67365267f *./src/mdirs.h
-c251ada640c0c6186650021130492a9e06c261f6 *./src/nvoc.cc
-5a213ea3606a7718d27719200dcc0667b7f4e90a *./src/nvoc.h
+4cd48acb0d60788133ab3aa9bfa871876cc06cf1 *./src/nvoc.cc
+1757ea573c87932ba6bed214b615f37015ecf42f *./src/nvoc.h
 5d793f73802ba56a74c0b5b4c668c346a2bc1258 *./src/qbmain.cc
 735e2f8195ef9d9d6720b976e98f6f45e86925f5 *./src/rc32.cc
 ee9bf9478124e0efe854efadce83951763c99323 *./src/rc32.h
@@ -43,5 +43,5 @@ ee9bf9478124e0efe854efadce83951763c99323 *./src/rc32.h
 902c407687e4a1526541cc9ca817cfca6555661d *./src/sources.inc
 46025207b186c68b74526686560ed72decb7d64e *./src/vars.cc
 b496214fa6b932662b09dd09ab5d794359886ecd *./src/vars.h
-890ad66e42d36b5c23ac2e1d46bea50a947630e3 *./src/version.h
-366b70365e4ddc71981c9b6af8ce23c6d9ba4667 *./src/version.inc
+fb674e1f2947131d262c8025aa4c472d1904131b *./src/version.h
+d70d6231f10b39db3a88a1c92d3e1f7a669ef8bf *./src/version.inc
