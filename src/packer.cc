@@ -117,7 +117,7 @@ bool packer::rbuf(void *file, uint8_t *c){
     rpos=0;
     return true;
   };
-  if(rpos<icbuf) *c=iobuf[rpos++];
+  if(rpos<(uint32_t)icbuf) *c=iobuf[rpos++];
   else{
     rpos=0;
     if((icbuf=(*read)(file,(char*)iobuf,0x10000))<0) return true;
@@ -290,7 +290,7 @@ bool packer::packer_putc(void *file, uint8_t c){
 }
 
 bool packer::load_header(void *file){
-  for(int i=0;i<sizeof(uint32_t);i++){
+  for(unsigned int i=0;i<sizeof(uint32_t);i++){
     hlp<<=8;
     if(rbuf(file,hlpp)||rpos==0) return true;
   };
