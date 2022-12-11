@@ -12,7 +12,7 @@
 #include "canonicalize.h"
 #include "mdirs.h"
 #include "signature.h"
-#include "lzss.h"
+#include "packer.h"
 #include "etc.h"
 
   struct list_record{
@@ -47,7 +47,7 @@
       list_summary_operator ls_f;
     public:
       bool ignore_pt;
-      lzss pack;
+      packer pack;
       uint32_t errcode;
       uint32_t header_size;
       uint64_t data_size;

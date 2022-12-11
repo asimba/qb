@@ -1,7 +1,5 @@
 SOURCES =   signature.cc \
-            rc32.cc \
-            nvoc.cc \
-            lzss.cc \
+            packer.cc \
             etc.cc \
             convert.cc \
             fnode.cc \

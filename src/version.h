@@ -1,1 +1,1 @@
-#define VERSION "0.8.25 (build 81 2022-01-26)"
+#define VERSION "0.8.26 (build 82 2022-12-11)"
