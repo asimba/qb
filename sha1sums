@@ -1,5 +1,5 @@
-d6a4bbc6bdc65260b56a20966420bb09e8c5971a *./bin/qb
-7ae621889da27704309d9bb8542da583845574e4 *./bin/qb.exe
+ce5348abdd8222357ea0362431472c2a176f6922 *./bin/qb
+0c6ae39c566a51f25215fb1b9f1fc6bb545e603d *./bin/qb.exe
 04a02a05b856af499c7e12a4ca54b192f6ee8b1c *./LICENSE
 39d5ebbc73cbce6b157047e21fae72f5d714d92b *./makefile
 c7e0598269b89c08b87fdb9de20d5342659f201b *./README.md
@@ -7,7 +7,7 @@ c7e0598269b89c08b87fdb9de20d5342659f201b *./README.md
 deb42b2641f3e6f2fb63461fab4a4a6a4a4690dd *./src/archive.h
 78882afd798f90d581c75347ebb9bfc1264dcd1c *./src/bnode.cc
 da07eb161d5606ad1db49cd6e027b0fb095f7f30 *./src/bnode.h
-669e92247772c9425d1522d57082df8534fea6f1 *./src/build.inc
+913be93e7a3dbb78ade0d6493c0d096330b17688 *./src/build.inc
 01d7ae4d64aac4aa3a7cb5a34e5dd008b95058f0 *./src/buildinc
 2a4ba2232e37cde6ccf4d85c0429bdb90081a687 *./src/canonicalize.cc
 d3cdb3d4423c1dc67367029ba7d6c73f3d332eee *./src/canonicalize.h
@@ -28,13 +28,13 @@ be092d83346279d06825fd0f2b41c03a51916da3 *./src/globfunction.h
 484fdf20c154794135aa7f22b0a322774be44a3f *./src/makefile.mk
 c139da5ddf1c747eee44e5aafee6eb312af3e29e *./src/mdirs.cc
 7e2e741f8abec81de2f5372bb36963c67365267f *./src/mdirs.h
-b89a4f3f0e21fd4c12cc632e90d723424667b66f *./src/packer.cc
-ca42f98338350a2fdd8bf1b9fe3761b6f8bbda40 *./src/packer.h
+a2e6ff1eec150e53cbf5546486c5456303e5c447 *./src/packer.cc
+ffeaa6e408f3930066f8727857386332ff95fa20 *./src/packer.h
 5d793f73802ba56a74c0b5b4c668c346a2bc1258 *./src/qbmain.cc
 33be3eefbfc69866f8d82178ba88fcbae5e77ae4 *./src/signature.cc
 22f651c8530d6bd4a941bfcd71c52c46d747286f *./src/signature.h
 eed8599c4ca65b26104ad72e412e94a96577b8e7 *./src/sources.inc
 46025207b186c68b74526686560ed72decb7d64e *./src/vars.cc
 b496214fa6b932662b09dd09ab5d794359886ecd *./src/vars.h
-19adaeed8af1ffb8341f6e4bbcec693cbb153870 *./src/version.h
-0d1bcded68015ade43539f48b7cc961c8cfd2fe4 *./src/version.inc
+0ed9d0c9ce2c136ad8576645aca0e19630d7e16b *./src/version.h
+c985ed7a7b8200d93ce2429c959e6532cfb2a65c *./src/version.inc
