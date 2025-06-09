@@ -1,1 +1,1 @@
-#define VERSION "0.8.35 (build 97 2025-05-30)"
+#define VERSION "0.8.36 (build 98 2025-06-09)"

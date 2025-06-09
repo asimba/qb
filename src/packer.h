@@ -60,10 +60,10 @@
       template <class T,class V> void del(T& p,uint32_t s,V v);
       io_operator read;
       io_operator write;
-      void wbuf(void* file, uint8_t c);
+      void wbuf(void* file, const uint8_t c);
       bool rbuf(void* file, uint8_t *c);
-      bool rc32_getc(void* file, uint8_t *c, uint8_t cntx);
-      bool rc32_putc(void* file, uint8_t c, uint8_t cntx);
+      bool rc32_getc(void* file, uint8_t *c, const uint8_t cntx);
+      bool rc32_putc(void* file, uint8_t c, const uint8_t cntx);
     public:
       uint8_t flags;
       uint8_t cnt;
